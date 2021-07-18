@@ -1,41 +1,54 @@
 import { Component } from 'react';
 import MainContainer from './components/MainContainer';
 import PageHeader from './components/PageHeader';
-import Feedback from './components/Feedback';
-// import Subheader from './components/Subheader/Subheader';
-// import Profile from './components/Profile/Profile';
-// import userData from './components/Profile/user.json';
-// import Statistics from './components/Statistics/Statistics';
-// import statisticalData from './components/Statistics/statistical-data.json';
-// import FriendList from './components/FriendList/FriendList';
-// import friendsData from './components/FriendList/friends.json';
-// import TransactionHistory from './components/TransactionHistory/TransactionHistory';
-// import transactionsData from './components/TransactionHistory/transactions.json';
+import Section from './components/Section';
+import FeedbackOptions from './components/FeedbackOptions';
+import Statistics from './components/Statistics';
+import Notification from './components/Notification';
 
 class App extends Component {
+  state = {
+    good: 0,
+    neutral: 0,
+    bad: 0,
+  };
+
+  changeFeedback = feedbackName =>
+    this.setState({ [feedbackName]: this.state[feedbackName] + 1 });
+
+  countTotalFeedback = () =>
+    Object.values(this.state).reduce((acc, value) => acc + value, 0);
+
+  countPositiveFeedbackPercentage = () =>
+    this.countTotalFeedback()
+      ? Math.round((this.state.good / this.countTotalFeedback()) * 100)
+      : 0;
+
   render() {
     return (
       <MainContainer>
-        <PageHeader>React Homework 02. Feedback</PageHeader>
-        <Feedback />
+        <PageHeader title="React Homework 02. Feedback" />
 
-        {/* <Subheader>Task 1. Social Network Profile</Subheader>
-        <Profile
-          name={userData.name}
-          tag={userData.tag}
-          location={userData.location}
-          avatar={userData.avatar}
-          stats={userData.stats}
-        />
+        <Section title="Please Leave Feedback">
+          <FeedbackOptions
+            options={Object.keys(this.state)}
+            onLeaveFeedback={this.changeFeedback}
+          />
+        </Section>
 
-        <Subheader>Task 2. Statistics Section</Subheader>
-        <Statistics title="Upload Stats" stats={statisticalData} />
-
-        <Subheader>Task 3. Friends List</Subheader>
-        <FriendList friendsData={friendsData} />
-
-        <Subheader>Task 4. Transaction History</Subheader>
-        <TransactionHistory transactionsData={transactionsData} /> */}
+        <Section title="Feedback Statistics">
+          {this.countTotalFeedback() > 0 ? (
+            <Statistics
+              good={this.state.good}
+              neutral={this.state.neutral}
+              bad={this.state.bad}
+              total={this.countTotalFeedback()}
+              likes={this.countPositiveFeedbackPercentage()}
+            />
+          ) : (
+            <Notification message="No feedback given" />
+          )}
+        </Section>
       </MainContainer>
     );
   }

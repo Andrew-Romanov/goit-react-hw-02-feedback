@@ -1,11 +1,19 @@
+import { Component } from 'react';
+import PropTypes from 'prop-types';
 import styles from './MainContainer.module.scss';
-// import './MainContainer.css';
 
-const MainContainer = props => {
-  return (
-    // <div className="MainContainer">{props.children}</div>
-    <div className={styles.MainContainer}>{props.children}</div>
-  );
-};
+class MainContainer extends Component {
+  static propTypes = {
+    children: PropTypes.node,
+  };
+
+  static defaultProps = {
+    children: <></>,
+  };
+
+  render() {
+    return <div className={styles.MainContainer}>{this.props.children}</div>;
+  }
+}
 
 export default MainContainer;

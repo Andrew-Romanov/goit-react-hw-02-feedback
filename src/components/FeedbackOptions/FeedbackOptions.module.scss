@@ -1,0 +1,15 @@
+.FeedbackOptions {
+  &__Title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 23px;
+    color: white;
+  }
+
+  &__ButtonList {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: -8px -8px 15px -8px;
+  }
+}
